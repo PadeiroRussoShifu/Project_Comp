@@ -13,35 +13,34 @@ public class Bank {
 		
 	}
 	
-	public static void payWinners(Player p,RoulettePocket  winPocket) {
-		// player Bet Value -> p.getRoundBets().get(i).getBetValue()
-		// player Bet payout ->  p.getRoundBets().get(i).getPayout();
-		double totalPayToWinner=0;
-		double totalMoneyLost =0;
-		
-		for (int i = 0; i < p.getRoundBets().size(); i++) {
-			
-			if(p.getRoundBets().get(i).isWin(winPocket)) {
-				double payToWinner = //betvalue + betvalue * payout
-				p.getRoundBets().get(i).getBetValue()+p.getRoundBets().get(i).getBetValue() * p.getRoundBets().get(i).getPayout();				
-				p.addMoney(payToWinner);
-				p.getRoundBets().get(i).setValueEaned(payToWinner);// valueEarned na aposta = pay to winner
-				totalPayToWinner+= payToWinner;
-				//adicionar value earned
-				
-				p.getPlayer_stats().addRLStatsRound();
-				
-			}else {
-				totalMoneyLost += p.getRoundBets().get(i).getBetValue();
-				p.getRoundBets().get(i).setValueEaned(0); // valueEarned na aposta =0
-			}
-			
-			
-		}
-			
+	 public static void payWinners(Player p,RoulettePocket  winPocket) {
+	        // player Bet Value -> p.getRoundBets().get(i).getBetValue()
+	        // player Bet payout ->  p.getRoundBets().get(i).getPayout();
+	        double totalPayToWinner=0;
+	        double totalMoneyLost =0;
 
-		
-	}
+	        for (int i = 0; i < p.getRoundBets().size(); i++) {
+
+	            if(p.getRoundBets().get(i).isWin(winPocket)) {
+	                double payToWinner = //betvalue + betvalue * payout
+	                p.getRoundBets().get(i).getBetValue()+p.getRoundBets().get(i).getBetValue() * p.getRoundBets().get(i).getPayout();
+	                p.addMoney(payToWinner);
+	                p.getRoundBets().get(i).setValueEaned(payToWinner);// valueEarned na aposta = pay to winner
+	                totalPayToWinner+= payToWinner;
+	                //defenir value earned das apostas -> resultado positivo
+	                p.getRoundBets().get(i).setValueEarned(p.getRoundBets().get(i).getBetValue() * p.getRoundBets().get(i).getPayout()); 
+
+
+
+	            }else {
+	                totalMoneyLost += p.getRoundBets().get(i).getBetValue();
+	                p.getRoundBets().get(i).setValueEaned(0); // valueEarned na aposta =0
+	                p.getRoundBets().get(i).setValueLost(p.getRoundBets().get(i).getBetValue());
+	            }
+
+
+	        }
+	 }
 	
 	public static double calculateBetReturnBJ(Player player, Dealer dealer) {
     	double returnBet=0;
